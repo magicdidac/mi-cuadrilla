@@ -1,0 +1,6 @@
+<svg id="Logo" xmlns="http://www.w3.org/2000/svg" width="128" height="129" viewBox="0 0 128 129">
+  <rect id="Rectángulo_1" data-name="Rectángulo 1" width="128" height="128" rx="32" fill="#5e1c71"/>
+  <path id="Polígono_1" data-name="Polígono 1" d="M32,0,64,129H0Z" transform="translate(32)" fill="#fff"/>
+  <ellipse id="Elipse_1" data-name="Elipse 1" cx="6" cy="2.5" rx="6" ry="2.5" transform="translate(48 90)" fill="#5e1c71"/>
+  <ellipse id="Elipse_2" data-name="Elipse 2" cx="6" cy="2.5" rx="6" ry="2.5" transform="translate(69 90)" fill="#5e1c71"/>
+</svg>
