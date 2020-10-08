@@ -1,14 +1,16 @@
 import React from 'react'
-import { useFirebaseApp, useUser } from 'reactfire'
+import { Button } from '@material-ui/core'
 
-export const Home = () => {
+export const Home = (props) => {
 
-    const user = useUser()
-    const firebase = useFirebaseApp()
+    const logoutHandler = async () => {
+        // TODO
+        props.history.push('/login')
+    }
 
     return (
         <div>
-            
+            <Button variant='contained' onClick={logoutHandler}>Cerrar sesión</Button>
         </div>
     )
 }
