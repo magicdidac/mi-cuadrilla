@@ -6,6 +6,9 @@ import { Login } from './Login/Login';
 import { ChangePassword } from './ChangePassword/ChangePassword';
 import{ Home } from './Home/Home';
 
+import Amplify from 'aws-amplify';
+import config from './aws-exports';
+Amplify.configure(config)
 
 const theme = createMuiTheme({
   palette: {

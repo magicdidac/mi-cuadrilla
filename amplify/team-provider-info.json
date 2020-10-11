@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-micuadrilla-dev-02440-authRole",
+      "UnauthRoleArn": "arn:aws:iam::280512824072:role/amplify-micuadrilla-dev-02440-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::280512824072:role/amplify-micuadrilla-dev-02440-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-micuadrilla-dev-02440-deployment",
+      "UnauthRoleName": "amplify-micuadrilla-dev-02440-unauthRole",
+      "StackName": "amplify-micuadrilla-dev-02440",
+      "StackId": "arn:aws:cloudformation:us-east-1:280512824072:stack/amplify-micuadrilla-dev-02440/10086bd0-09b5-11eb-ad9e-0e0494eb61ff",
+      "AmplifyAppId": "d39io34sci6phg"
+    },
+    "categories": {
+      "auth": {
+        "micuadrilla42b572ef": {}
+      }
+    }
+  }
+}
