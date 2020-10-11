@@ -4,11 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Login } from './Login/Login';
 import { ChangePassword } from './ChangePassword/ChangePassword';
-import{ Home } from './Home/Home';
-
-import Amplify from 'aws-amplify';
-import config from './aws-exports';
-Amplify.configure(config)
+import { Home } from './Home/Home';
 
 const theme = createMuiTheme({
   palette: {
@@ -30,15 +26,15 @@ const theme = createMuiTheme({
 function App() {
 
   return (
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/login' component={Login}/>
-            <Route exact path='/changePassword' component={ChangePassword} />
-            <Route exact path='/' component={Home} />
-          </Switch>
-        </BrowserRouter>
-      </ThemeProvider>
+    <ThemeProvider theme={theme}>
+      <BrowserRouter>
+        <Switch>
+          <Route exact path='/login' component={Login} />
+          <Route exact path='/changePassword' component={ChangePassword} />
+          <Route exact path='/' component={Home} />
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 
