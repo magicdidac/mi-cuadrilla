@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { TextField, Button, Typography } from '@material-ui/core'
-import { useStyle } from './ChangePasswordStyle'
+import { useStyle } from './NewPasswordStyle'
 import logo from '../logo.svg'
+import { showNotification } from '../utils/notification'
+import { setNewPassword } from '../Actions/Auth'
+import { inject } from 'mobx-react'
 
-export const ChangePassword = () => {
+export const NewPassword = inject('UserStore')((props) => {
 
     const style = useStyle()
 
@@ -13,7 +16,20 @@ export const ChangePassword = () => {
 
     const changePassword = (event) => {
         event.preventDefault()
+
+        if(password !== confirmedPassword){
+            let config = {
+                icon: 'error',
+                type: 'error',
+                message: 'Las contraseñas no coinciden',
+                autoClose: true,
+            }
+            showNotification(config);
+            return
+        }
+
         setSubmitted(true)
+        setNewPassword(password, props.UserStore)
 
     }
 
@@ -27,15 +43,17 @@ export const ChangePassword = () => {
                         <TextField type='password' label='Contraseña'
                         InputLabelProps={{className: style.field_label}}
                         InputProps={{className: style.field_input}}
-                        onChange={ (ev)=> setPassword(ev.target.value)}/>
+                        onChange={ (ev)=> setPassword(ev.target.value)}
+                        disabled={submitted}/>
                         <TextField className={style.field} type='password' label='Confirmar contraseña'
                         InputLabelProps={{className: style.field_label}}
                         InputProps={{className: style.field_input}}
-                        onChange={ (ev)=> setConfirmedPassword(ev.target.value)}/>
+                        onChange={ (ev)=> setConfirmedPassword(ev.target.value)}
+                        disabled={submitted}/>
                         <Button disabled={submitted} variant='contained' className={style.buttons} type='submit'>Cambiar contraseña</Button>
                     </form> 
                 </div>
             </div>
         </div>
     )
-}
+})

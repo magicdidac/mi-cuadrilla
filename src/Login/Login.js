@@ -1,41 +1,63 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { TextField, Button, Typography } from '@material-ui/core'
-import { useStyle } from './LoginStyle'
+import { style } from './LoginStyle'
 import logo from '../logo.svg'
+import { inject, observer} from 'mobx-react'
+import { signIn } from '../Actions/Auth'
+import { withStyles } from '@material-ui/core/styles'
 
-export const Login = (props) => {
+
+class Login extends React.Component {
     
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    constructor(props){
+        super(props)
+        this.state = {
+            username: '',
+            password: '',
+            submitted: false,
+        }
 
-    const [submitted, setSubmitted] = useState(false)
+        if(this.props.UserStore.cognitoUser){
+            this.props.history.push('/home')
+        }
 
-    const style = useStyle()
-
-    const login = (event) => {
-        event.preventDefault()
-        setSubmitted(true)
     }
 
-    return (
-        <div>
-            <div className={style.paper}>
-                <img alt='logo' className={style.logo} src={logo} />
-                <Typography className={style.title} variant='h3'>Mi Cuadrilla</Typography>
-                <div className={style.backForm}>
-                    <form className={style.form} onSubmit={login} noValidate={false}>
-                        <TextField label='Usuario'
-                        InputLabelProps={{className: style.field_label}}
-                        InputProps={{className: style.field_input}}
-                        onChange={ (ev)=> setUsername(ev.target.value)}/>
-                        <TextField className={style.field} type='password' label='Contraseña'
-                        InputLabelProps={{className: style.field_label}}
-                        InputProps={{className: style.field_input}}
-                        onChange={ (ev)=> setPassword(ev.target.value)}/>
-                        <Button disabled={submitted} variant='contained' className={style.buttons} type='submit'>Iniciar sesión</Button>
-                    </form> 
+    login = (event) => {
+        event.preventDefault()
+        this.setState({submitted: true})
+        signIn(this.state.username, this.state.password, this.props.UserStore)
+        .catch(() => { console.log('EROOOOR') 
+            //this.setState({submitted: false})
+        })
+    }
+
+    render(){
+        const { classes } = this.props
+        return (
+            <div>
+                <div className={classes.paper}>
+                    <img alt='logo' className={classes.logo} src={logo} />
+                    <Typography className={classes.title} variant='h3'>Mi Cuadrilla</Typography>
+                    <div className={classes.backForm}>
+                        <form className={classes.form} onSubmit={this.login} noValidate={false}>
+                            <TextField label='Usuario'
+                            InputLabelProps={{className: classes.field_label}}
+                            InputProps={{className: classes.field_input}}
+                            onChange={ (ev)=> this.setState({username: ev.target.value})}
+                            disabled={this.state.submitted}/>
+                            <TextField className={classes.field} type='password' label='Contraseña'
+                            InputLabelProps={{className: classes.field_label}}
+                            InputProps={{className: classes.field_input}}
+                            onChange={ (ev)=> this.setState({password: ev.target.value})}
+                            disabled={this.state.submitted}/>
+                            <Button disabled={this.state.submitted} variant='contained' className={classes.buttons} type='submit'>Iniciar sesión</Button>
+                        </form> 
+                    </div>
                 </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
+
+export default inject("UserStore")(withStyles(style)(observer(Login)));

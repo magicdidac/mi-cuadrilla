@@ -1,20 +1,41 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
+import { Provider } from 'mobx-react';
+import UserStore from './stores/UserStore';
+import { Router } from 'react-router-dom';
+import history from './history';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { ToastContainer } from 'react-toastify';
 
-import { FirebaseAppProvider } from "reactfire";
-import firebaseConfig from "./firebase-config";
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      light: "#9c4dcc",
+      main: "#6a1b9a",
+      dark: "#38006b",
+    },
+    secondary: {
+      light: "#6a4f4b",
+      main: "#3e2723",
+      dark: "#1b0000",
+    },
+    white: '#ffffff',
+    black: '#000000',
+  },
+});
 
 ReactDOM.render(
-  <FirebaseAppProvider firebaseConfig={firebaseConfig}>
-    <Suspense fallback={'Loaging...'}>
-      <React.StrictMode>
+  <Provider UserStore={UserStore}>
+    <Router history={history}>
+      <MuiThemeProvider theme={theme}>
         <App />
-      </React.StrictMode>
-    </Suspense>
-  </FirebaseAppProvider>,
+        <ToastContainer/>
+      </MuiThemeProvider>
+    </Router>
+  </Provider>,
   document.getElementById("root")
 );
 

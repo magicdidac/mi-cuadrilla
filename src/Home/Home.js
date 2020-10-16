@@ -1,11 +1,12 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
+import { inject, observer} from 'mobx-react'
+import { signOut } from '../Actions/Auth'
 
-export const Home = (props) => {
+export const Home = inject("UserStore")(observer((props) => {
 
     const logoutHandler = async () => {
-        // TODO
-        props.history.push('/login')
+        signOut(props.UserStore)
     }
 
     return (
@@ -13,4 +14,4 @@ export const Home = (props) => {
             <Button variant='contained' onClick={logoutHandler}>Cerrar sesión</Button>
         </div>
     )
-}
+}))
