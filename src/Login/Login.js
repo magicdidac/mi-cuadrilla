@@ -1,15 +1,14 @@
 import React from 'react'
-import { TextField, Button, Typography } from '@material-ui/core'
+import { TextField, Button, Typography, Link, withStyles } from '@material-ui/core'
 import { style } from './LoginStyle'
 import logo from '../logo.svg'
-import { inject, observer} from 'mobx-react'
-import { signIn } from '../Actions/Auth'
-import { withStyles } from '@material-ui/core/styles'
+import { connect } from 'react-redux'
+import { signIn } from '../Actions'
 
 
 class Login extends React.Component {
-    
-    constructor(props){
+
+    constructor(props) {
         super(props)
         this.state = {
             username: '',
@@ -17,22 +16,23 @@ class Login extends React.Component {
             submitted: false,
         }
 
-        if(this.props.UserStore.cognitoUser){
+        if (this.props.userStore.cognitoUser) {
             this.props.history.push('/home')
         }
-
     }
 
     login = (event) => {
         event.preventDefault()
-        this.setState({submitted: true})
-        signIn(this.state.username, this.state.password, this.props.UserStore)
-        .catch(() => { console.log('EROOOOR') 
-            //this.setState({submitted: false})
-        })
+        this.setState({ submitted: true })
+
+        this.props.signIn(this.state.username, this.state.password)
+            .catch((err) => {
+                console.log(err)
+                this.setState({ submitted: false })
+            })
     }
 
-    render(){
+    render() {
         const { classes } = this.props
         return (
             <div>
@@ -42,22 +42,30 @@ class Login extends React.Component {
                     <div className={classes.backForm}>
                         <form className={classes.form} onSubmit={this.login} noValidate={false}>
                             <TextField label='Usuario'
-                            InputLabelProps={{className: classes.field_label}}
-                            InputProps={{className: classes.field_input}}
-                            onChange={ (ev)=> this.setState({username: ev.target.value})}
-                            disabled={this.state.submitted}/>
+                                InputLabelProps={{ className: classes.field_label }}
+                                InputProps={{ className: classes.field_input }}
+                                onChange={(ev) => this.setState({ username: ev.target.value })}
+                                disabled={this.state.submitted} />
                             <TextField className={classes.field} type='password' label='Contraseña'
-                            InputLabelProps={{className: classes.field_label}}
-                            InputProps={{className: classes.field_input}}
-                            onChange={ (ev)=> this.setState({password: ev.target.value})}
-                            disabled={this.state.submitted}/>
+                                InputLabelProps={{ className: classes.field_label }}
+                                InputProps={{ className: classes.field_input }}
+                                onChange={(ev) => this.setState({ password: ev.target.value })}
+                                disabled={this.state.submitted} />
                             <Button disabled={this.state.submitted} variant='contained' className={classes.buttons} type='submit'>Iniciar sesión</Button>
-                        </form> 
+                        </form>
                     </div>
+                    <Link className={classes.forgotPassword}>¿Has olvidado la contraseña?</Link>
                 </div>
             </div>
         )
     }
 }
 
-export default inject("UserStore")(withStyles(style)(observer(Login)));
+const mapStateToProps = (state) => (
+    {
+        userStore: state.user,
+    }
+)
+
+
+export default connect(mapStateToProps, { signIn })(withStyles(style)(Login));

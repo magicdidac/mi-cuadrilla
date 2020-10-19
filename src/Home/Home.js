@@ -1,17 +1,21 @@
 import React from 'react'
 import { Button } from '@material-ui/core'
-import { inject, observer} from 'mobx-react'
-import { signOut } from '../Actions/Auth'
+import { signOut } from '../Actions'
+import { connect } from 'react-redux'
 
-export const Home = inject("UserStore")(observer((props) => {
+class Home extends React.Component {
 
-    const logoutHandler = async () => {
-        signOut(props.UserStore)
+    logoutHandler = async () => {
+        this.props.signOut()
     }
 
-    return (
-        <div>
-            <Button variant='contained' onClick={logoutHandler}>Cerrar sesión</Button>
-        </div>
-    )
-}))
+    render() {
+        return (
+            <div>
+                <Button variant='contained' onClick={this.logoutHandler}>Cerrar sesión</Button>
+            </div>
+        )
+    }
+}
+
+export default connect(null, { signOut })(Home);

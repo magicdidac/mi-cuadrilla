@@ -1,14 +1,12 @@
-import { makeStyles } from "@material-ui/core";
-
-export const useStyle = makeStyles((theme) => ({
+export const style = (theme) => ({
   root: {
     flexGrow: 1,
   },
-  title:{
+  title: {
     color: theme.palette.white
   },
-  logo:{
-    boxShadow: "0px 0px 50px "+theme.palette.white,
+  logo: {
+    boxShadow: "0px 0px 50px " + theme.palette.white,
     borderRadius: "30px"
   },
   paper: {
@@ -23,22 +21,22 @@ export const useStyle = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    background: "linear-gradient(180deg, "+theme.palette.primary.light+" 60%, "+theme.palette.primary.dark+" 100%)",
+    background: "linear-gradient(180deg, " + theme.palette.primary.light + " 60%, " + theme.palette.primary.dark + " 100%)",
   },
   field: {
     margin: "10px",
-},
-    field_label: {
-    color: theme.palette.white+' !important'
+  },
+  field_label: {
+    color: theme.palette.white + ' !important'
   },
   field_input: {
-      color: theme.palette.white+' !important',
-      
+    color: theme.palette.white + ' !important',
+
   },
-  backForm:{
+  backForm: {
     backgroundColor: 'rgba(255,255,255,.1)',
     borderRadius: '20px',
-    margin:'10px',
+    margin: '10px',
     padding: '70px'
   },
   form: {
@@ -47,8 +45,8 @@ export const useStyle = makeStyles((theme) => ({
     alignItems: "center",
   },
   buttons: {
-      backgroundColor: theme.palette.primary.dark,
-      color: theme.palette.white,
-      marginTop: '25px'
+    backgroundColor: theme.palette.primary.dark,
+    color: theme.palette.white,
+    marginTop: '25px'
   }
-}));
+});

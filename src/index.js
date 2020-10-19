@@ -3,12 +3,14 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { Provider } from 'mobx-react';
-import UserStore from './stores/UserStore';
+import { Provider } from 'react-redux';
 import { Router } from 'react-router-dom';
 import history from './history';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { ToastContainer } from 'react-toastify';
+import allReducers from './reducers';
+import { createStore, compose, applyMiddleware } from 'redux';
+import ReduxThunk from 'redux-thunk';
 
 const theme = createMuiTheme({
   palette: {
@@ -27,12 +29,18 @@ const theme = createMuiTheme({
   },
 });
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  allReducers, {},
+  composeEnhancers(applyMiddleware(ReduxThunk)));
+
 ReactDOM.render(
-  <Provider UserStore={UserStore}>
+  <Provider store={store}>
     <Router history={history}>
       <MuiThemeProvider theme={theme}>
         <App />
-        <ToastContainer/>
+        <ToastContainer />
       </MuiThemeProvider>
     </Router>
   </Provider>,

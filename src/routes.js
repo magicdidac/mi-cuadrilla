@@ -1,8 +1,8 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import Login from './Login/Login';
-import { NewPassword } from './NewPassword/NewPassword';
-import { Home } from './Home/Home';
+import NewPassword from './NewPassword/NewPassword';
+import Home from './Home/Home';
 
 const RouterConfig = () => {
 
