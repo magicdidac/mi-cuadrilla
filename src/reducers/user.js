@@ -21,8 +21,12 @@ const userReducer = (state = INITIAL_STATE, action) => {
                 email: userPayload.email,
                 role: userPayload['cognito:groups'][0]
             }
+        case 'SET_EMAIL':
+            return { ...state, email: action.payload }
         case 'SIGNOUT':
             state.cognitoUser.signOut()
+            return INITIAL_STATE;
+        case 'RESET_USER_INFO':
             return INITIAL_STATE;
         default:
             return INITIAL_STATE;

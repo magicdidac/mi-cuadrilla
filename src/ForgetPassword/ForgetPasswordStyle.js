@@ -31,13 +31,16 @@ export const style = (theme) => ({
   },
   field_input: {
     color: theme.palette.white + ' !important',
-
+    minWidth: '250px'
   },
   backForm: {
     backgroundColor: 'rgba(255,255,255,.1)',
     borderRadius: '20px',
     margin: '10px',
-    padding: '70px'
+    paddingTop: '70px',
+    paddingBottom: '70px',
+    minWidth: '350px',
+    minHeight: '150px'
   },
   form: {
     display: "flex",

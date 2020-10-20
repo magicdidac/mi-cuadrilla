@@ -37,7 +37,7 @@ class App extends React.Component {
   render() {
 
     const path = this.props.location.pathname
-    let notloggedAllowedPaths = path === "/forgetpassword" || path === "/newpassword" || path.indexOf('/resetpassword') > -1;
+    let notloggedAllowedPaths = path === "/forgetpassword" || path === "/newpassword" || path === '/resetpassword';
     if (this.props.userStore.cognitoUser || path === '/' || notloggedAllowedPaths) {
       return (
         <RouterConfig />

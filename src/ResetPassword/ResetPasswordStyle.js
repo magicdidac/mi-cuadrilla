@@ -29,6 +29,9 @@ export const style = (theme) => ({
   field_label: {
     color: theme.palette.white + ' !important'
   },
+  field_input_disabled: {
+    color: theme.palette.darkWhite + ' !important'
+  },
   field_input: {
     color: theme.palette.white + ' !important',
     minWidth: '250px'

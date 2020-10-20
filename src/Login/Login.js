@@ -33,7 +33,7 @@ class Login extends React.Component {
     }
 
     render() {
-        const { classes } = this.props
+        const { classes, history } = this.props
         return (
             <div>
                 <div className={classes.paper}>
@@ -54,7 +54,7 @@ class Login extends React.Component {
                             <Button disabled={this.state.submitted} variant='contained' className={classes.buttons} type='submit'>Iniciar sesión</Button>
                         </form>
                     </div>
-                    <Link className={classes.forgotPassword}>¿Has olvidado la contraseña?</Link>
+                    <Link onClick={() => history.push('/forgetpassword')} className={classes.forgotPassword}>¿Has olvidado la contraseña?</Link>
                 </div>
             </div>
         )

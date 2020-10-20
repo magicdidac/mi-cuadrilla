@@ -1,12 +1,12 @@
 import React from 'react'
 import { TextField, Button, Typography, withStyles } from '@material-ui/core'
-import { style } from './ForgotPasswordStyle'
+import { style } from './ForgetPasswordStyle'
 import logo from '../logo.svg'
 import { showNotification } from '../utils/notification'
-import { setNewPassword } from '../Actions'
+import { sendEmailResetPassword } from '../Actions'
 import { connect } from 'react-redux'
 
-class ForgotPassword extends React.Component {
+class ForgetPassword extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -18,7 +18,7 @@ class ForgotPassword extends React.Component {
     sendEmail = (event) => {
         event.preventDefault()
 
-        if (this.state.password !== this.state.confirmedPassword) {
+        if (this.state.email.length < 1){
             let config = {
                 icon: 'error',
                 type: 'error',
@@ -30,8 +30,10 @@ class ForgotPassword extends React.Component {
         }
 
         this.setState({ submitted: true });
-        this.props.setNewPassword(this.state.password, this.props.userStore.cognitoUser)
-
+        this.props.sendEmailResetPassword(this.state.email)
+        .catch(() => {
+            this.setState({ submitted: false })
+        })  
     }
 
     render() {
@@ -40,10 +42,11 @@ class ForgotPassword extends React.Component {
             <div>
                 <div className={classes.paper}>
                     <img alt='logo' className={classes.logo} src={logo} />
-                    <Typography className={classes.title} variant='h3'>Tu email</Typography>
+                    <Typography className={classes.title} variant='h3'>Restaurar</Typography>
+                    <Typography className={classes.title} variant='h3'>tu contraseña</Typography>
                     <div className={classes.backForm}>
                         <form className={classes.form} onSubmit={this.sendEmail} noValidate={false}>
-                            <TextField type='email' label='email'
+                            <TextField type='email' label='Email'
                                 InputLabelProps={{ className: classes.field_label }}
                                 InputProps={{ className: classes.field_input }}
                                 onChange={(ev) => this.setState({ email: ev.target.value })}
@@ -57,10 +60,4 @@ class ForgotPassword extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => (
-    {
-        userStore: state.user,
-    }
-)
-
-export default connect(mapStateToProps, { setNewPassword })(withStyles(style)(ForgotPassword));
+export default connect(null, { sendEmailResetPassword })(withStyles(style)(ForgetPassword));

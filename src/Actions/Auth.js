@@ -111,3 +111,89 @@ export const setNewPassword = (newPassword, cognitoUser) => {
 
     }
 }
+
+export const resetPassword = (email, newPassword, validationCode) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            let poolData = {
+                ClientId: COGNITO_CLIENT_ID,
+                UserPoolId: COGNITO_USER_POOL_ID,
+            }
+            let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
+            let userData = {
+                Username: email,
+                Pool: userPool,
+            }
+            let cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+            try{
+                cognitoUser.confirmPassword(validationCode, newPassword)
+                dispatch({
+                    type: 'RESET_USER_INFO'
+                })
+                let config = {
+                    icon: 'check',
+                    type: 'success',
+                    message: 'Su contraseña se ha reseteado correctamente',
+                    autoClose: true,
+                }
+                showNotification(config);
+                resolve()
+                history.push('/')
+            }catch (err){
+                let config = {
+                    icon: 'error',
+                    type: 'error',
+                    message: err.message,
+                    autoClose: true,
+                }
+                showNotification(config);
+                reject()
+            }
+        })
+    }
+}
+
+export const sendEmailResetPassword = (email) => {
+    return (dispatch) => {
+        return new Promise((resolve, reject) => {
+            let poolData = {
+                ClientId: COGNITO_CLIENT_ID,
+                UserPoolId: COGNITO_USER_POOL_ID,
+            }
+            let userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData)
+            let userData = {
+                Username: email,
+                Pool: userPool,
+            }
+            let cognitoUser = new AmazonCognitoIdentity.CognitoUser(userData)
+
+            cognitoUser.forgotPassword({
+                onSuccess: function (result) {
+                    let config = {
+                        icon: 'check',
+                        type: 'success',
+                        message: 'Le hemos enviado un email con el codigo de validación.',
+                        autoClose: true,
+                    }
+                    showNotification(config);
+                    dispatch({
+                        type:'SET_EMAIL',
+                        payload: email
+                    })
+                    history.push('/resetpassword')
+                    resolve();
+                },
+                onFailure: function (err) {
+                    let config = {
+                        icon: 'error',
+                        type: 'error',
+                        message: err.message,
+                        autoClose: true,
+                    }
+                    showNotification(config);
+                    reject()
+                }
+            })
+        })
+    }
+}
